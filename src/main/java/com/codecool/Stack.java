@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.util.EmptyStackException;
+
 public class Stack {
     private int maxSize;
     private Object data[];
@@ -12,34 +14,43 @@ public class Stack {
     }
 
     public void push(Object element){
-        if(checkSize()) {
+        if(!checkStackIsFull()) {
             top += 1;
             data[top] = element;
+        } else {
+            throw new StackOverflowError("Stack is full");
         }
     }
 
     public Object pop(){
-        top-=1;
-        return data[top];
+        if(!isEmpty()) {
+            return data[top--];
+        } else {
+            throw new EmptyStackException();
+        }
     }
 
-    private boolean checkSize(){
-        if(top == maxSize){
-            return false;
-        } else {
-            return true;
-        }
+    private boolean checkStackIsFull(){
+        return top == maxSize - 1;
     }
 
     public Object peek(){
-        return data[top];
+        if(!isEmpty()){
+            return data[top];
+        } else {
+            throw new EmptyStackException();
+        }
     }
 
     public boolean isEmpty(){
-        if(top == -1){
-            return true;
-        } else {
-            return false;
-        }
+        return top==-1;
+    }
+
+    public Integer checkBusy(){
+        return top+1;
+    }
+
+    public Integer checkFree(){
+        return maxSize-top-1;
     }
 }
